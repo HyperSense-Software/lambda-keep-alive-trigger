@@ -5,8 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "*.js",
-    "*.d.ts"
+    "dist"
   ],
   "repository": {
     "type": "git",
@@ -26,9 +25,7 @@
   "devDependencies": {
     "@types/node": "^20.7.1",
     "tslib": "^2.6.2",
-    "typescript": "^4.4.3"
-  },
-  "peerDependencies": {
+    "typescript": "^4.4.3",
     "aws-cdk": "2.94.0",
     "aws-cdk-lib": "2.94.0"
   },

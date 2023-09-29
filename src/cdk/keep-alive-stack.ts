@@ -11,7 +11,7 @@ export class KeepAliveStackParams extends Object{
         if (data.stack) this.stack = data.stack;
         if (data.lambdaFunction) this.lambdaFunction = data.lambdaFunction
         if (data.handlerParams) this.handlerParams = data.handlerParams;
-        else data.handlerParams = {type: "KeepAlive"};
+        else this.handlerParams = {type: "KeepAlive"};
         if (data.eventRule) this.eventRule = data.eventRule;
         else this.eventRule = new aws_events.Rule(this.stack, `KeepAliveRuleDefault`, {
             schedule: aws_events.Schedule.expression("rate(5 minutes)")

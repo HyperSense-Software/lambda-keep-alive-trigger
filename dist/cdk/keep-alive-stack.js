@@ -12,7 +12,7 @@ class KeepAliveStackParams extends Object {
         if (data.handlerParams)
             this.handlerParams = data.handlerParams;
         else
-            data.handlerParams = { type: "KeepAlive" };
+            this.handlerParams = { type: "KeepAlive" };
         if (data.eventRule)
             this.eventRule = data.eventRule;
         else

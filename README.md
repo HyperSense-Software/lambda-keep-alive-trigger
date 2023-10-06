@@ -43,8 +43,14 @@ export class ExtensionStack extends Stack {
     constructor(scope: Construct, id: string, props: StackProps | undefined) {
         super(scope, id, props);
         /* Custom code*/
-        let customRule = new aws_events.Rule(stack, `KeepAliveRuleCustomRule`, {
-            schedule: aws_events.Schedule.expression("0/5 10-18 ? * 1-5 *")
+        let customRule = new aws_events.Rule(this, `KeepAliveRuleCustomRule`, {
+            schedule: aws_events.Schedule.cron({
+                minute: "0/5",
+                hour: "10-18",
+                month: "*",
+                weekDay: "MON-FRI",
+                year: "*"
+            })
         })
         addKeepAlive(new KeepAliveStackParams({stack: stack, lambdaFunction: functionToKeepAlive, eventRule: customRule}));    }
 }

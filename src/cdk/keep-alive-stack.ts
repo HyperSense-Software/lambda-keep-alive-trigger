@@ -1,29 +1,27 @@
 import {Stack, aws_lambda, aws_events, aws_events_targets} from "aws-cdk-lib";
 
-export class KeepAliveStackParams extends Object {
-    static DefaultRules :{[p: string]: aws_events.Rule} = {}
-    stack!: Stack;
-    lambdaFunction!: aws_lambda.Function;
+export class KeepAliveStackParams {
+    stack: Stack;
+    lambdaFunction: aws_lambda.Function;
     handlerParams? : any;
     eventRule?: aws_events.Rule;
 
-    constructor(data : Partial <KeepAliveStackParams>){
-        super(data)
-        if (data.stack) this.stack = data.stack;
-        if (data.lambdaFunction) this.lambdaFunction = data.lambdaFunction
-        if (data.handlerParams) this.handlerParams = data.handlerParams;
-        else this.handlerParams = {type: "KeepAlive"};
-        if (data.eventRule) this.eventRule = data.eventRule;
-        else
+    constructor(stack: Stack,
+                lambdaFunction: aws_lambda.Function,
+                customProps?: {
+                    handlerParams?: any,
+                    eventRule?: aws_events.Rule
+                }){
+        this.stack = stack;
+        this.lambdaFunction = lambdaFunction
+        if (customProps)
         {
-            //create a default rule
-            if (!KeepAliveStackParams.DefaultRules[this.stack.stackName])
-            {
-                KeepAliveStackParams.DefaultRules[this.stack.stackName] = new aws_events.Rule(this.stack, `KeepAliveRuleDefault${this.stack.stackName}`, {
-                    schedule: aws_events.Schedule.expression("rate(5 minutes)")
-                })
-            }
-            this.eventRule = KeepAliveStackParams.DefaultRules[this.stack.stackName];
+            if (customProps.handlerParams) this.handlerParams = customProps.handlerParams;
+            else this.handlerParams = {type: "KeepAlive"};
+            if (customProps.eventRule) this.eventRule = customProps.eventRule;
+            else this.eventRule = new aws_events.Rule(this.stack, `KeepAliveRuleDefault-${this.lambdaFunction.functionName}`, {
+                schedule: aws_events.Schedule.expression("rate(5 minutes)")
+            })
         }
     }
 }

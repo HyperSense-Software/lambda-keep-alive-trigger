@@ -15,13 +15,19 @@ class KeepAliveStackParams extends Object {
             this.handlerParams = { type: "KeepAlive" };
         if (data.eventRule)
             this.eventRule = data.eventRule;
-        else
-            this.eventRule = new aws_cdk_lib_1.aws_events.Rule(this.stack, `KeepAliveRuleDefault`, {
-                schedule: aws_cdk_lib_1.aws_events.Schedule.expression("rate(5 minutes)")
-            });
+        else {
+            //create a default rule
+            if (!KeepAliveStackParams.DefaultRules[this.stack.stackName]) {
+                KeepAliveStackParams.DefaultRules[this.stack.stackName] = new aws_cdk_lib_1.aws_events.Rule(this.stack, `KeepAliveRuleDefault${this.stack.stackName}`, {
+                    schedule: aws_cdk_lib_1.aws_events.Schedule.expression("rate(5 minutes)")
+                });
+            }
+            this.eventRule = KeepAliveStackParams.DefaultRules[this.stack.stackName];
+        }
     }
 }
 exports.KeepAliveStackParams = KeepAliveStackParams;
+KeepAliveStackParams.DefaultRules = {};
 function addKeepAlive(params) {
     let handlerParams = params.handlerParams;
     let eventRule = params.eventRule;

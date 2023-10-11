@@ -1,6 +1,7 @@
 import {Stack, aws_lambda, aws_events, aws_events_targets} from "aws-cdk-lib";
 
-export class KeepAliveStackParams extends Object{
+export class KeepAliveStackParams extends Object {
+    static DefaultRules :{[p: string]: aws_events.Rule} = {}
     stack!: Stack;
     lambdaFunction!: aws_lambda.Function;
     handlerParams? : any;
@@ -13,9 +14,17 @@ export class KeepAliveStackParams extends Object{
         if (data.handlerParams) this.handlerParams = data.handlerParams;
         else this.handlerParams = {type: "KeepAlive"};
         if (data.eventRule) this.eventRule = data.eventRule;
-        else this.eventRule = new aws_events.Rule(this.stack, `KeepAliveRuleDefault`, {
-            schedule: aws_events.Schedule.expression("rate(5 minutes)")
-        })
+        else
+        {
+            //create a default rule
+            if (!KeepAliveStackParams.DefaultRules[this.stack.stackName])
+            {
+                KeepAliveStackParams.DefaultRules[this.stack.stackName] = new aws_events.Rule(this.stack, `KeepAliveRuleDefault${this.stack.stackName}`, {
+                    schedule: aws_events.Schedule.expression("rate(5 minutes)")
+                })
+            }
+            this.eventRule = KeepAliveStackParams.DefaultRules[this.stack.stackName];
+        }
     }
 }
 

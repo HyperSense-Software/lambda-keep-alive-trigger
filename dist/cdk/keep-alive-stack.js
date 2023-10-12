@@ -3,21 +3,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.addKeepAlive = exports.KeepAliveStackParams = void 0;
 const aws_cdk_lib_1 = require("aws-cdk-lib");
 class KeepAliveStackParams {
-    constructor(stack, lambdaFunction, customProps) {
+    /**
+     * New KeepAliveStackParams
+     * @param stack - Stack
+     * @param lambdaFunction - Lambda function to be called
+     * @param eventRule - If string a new event rule is created triggered every 5 minutes, otherwise the entire event rule object
+     * @param handlerParams - Optional parameters to be passed to the lambda function, defaults to {type: "KeepAlive"}
+     */
+    constructor(stack, lambdaFunction, eventRule, handlerParams) {
         this.stack = stack;
         this.lambdaFunction = lambdaFunction;
-        if (customProps) {
-            if (customProps.handlerParams)
-                this.handlerParams = customProps.handlerParams;
-            else
-                this.handlerParams = { type: "KeepAlive" };
-            if (customProps.eventRule)
-                this.eventRule = customProps.eventRule;
-            else
-                this.eventRule = new aws_cdk_lib_1.aws_events.Rule(this.stack, `KeepAliveRuleDefault-${this.lambdaFunction.functionName}`, {
-                    schedule: aws_cdk_lib_1.aws_events.Schedule.expression("rate(5 minutes)")
-                });
-        }
+        if (handlerParams)
+            this.handlerParams = handlerParams;
+        else
+            this.handlerParams = { type: "KeepAlive" };
+        if (typeof eventRule == "string")
+            this.eventRule = new aws_cdk_lib_1.aws_events.Rule(this.stack, eventRule, { schedule: aws_cdk_lib_1.aws_events.Schedule.expression("rate(5 minutes)") });
+        else
+            this.eventRule = eventRule;
     }
 }
 exports.KeepAliveStackParams = KeepAliveStackParams;

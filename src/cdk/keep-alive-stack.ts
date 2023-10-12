@@ -6,23 +6,24 @@ export class KeepAliveStackParams {
     handlerParams? : any;
     eventRule?: aws_events.Rule;
 
+    /**
+     * New KeepAliveStackParams
+     * @param stack - Stack
+     * @param lambdaFunction - Lambda function to be called
+     * @param eventRule - If string a new event rule is created triggered every 5 minutes, otherwise the entire event rule object
+     * @param handlerParams - Optional parameters to be passed to the lambda function, defaults to {type: "KeepAlive"}
+     */
     constructor(stack: Stack,
                 lambdaFunction: aws_lambda.Function,
-                customProps?: {
-                    handlerParams?: any,
-                    eventRule?: aws_events.Rule
-                }){
+                eventRule: string | aws_events.Rule,
+                handlerParams?: any){
         this.stack = stack;
         this.lambdaFunction = lambdaFunction
-        if (customProps)
-        {
-            if (customProps.handlerParams) this.handlerParams = customProps.handlerParams;
-            else this.handlerParams = {type: "KeepAlive"};
-            if (customProps.eventRule) this.eventRule = customProps.eventRule;
-            else this.eventRule = new aws_events.Rule(this.stack, `KeepAliveRuleDefault-${this.lambdaFunction.functionName}`, {
-                schedule: aws_events.Schedule.expression("rate(5 minutes)")
-            })
-        }
+        if (handlerParams) this.handlerParams = handlerParams;
+        else this.handlerParams = {type: "KeepAlive"};
+        if (typeof eventRule == "string") this.eventRule = new aws_events.Rule(this.stack, eventRule,
+            {schedule: aws_events.Schedule.expression("rate(5 minutes)")});
+        else this.eventRule = eventRule;
     }
 }
 

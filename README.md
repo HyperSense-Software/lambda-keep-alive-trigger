@@ -11,11 +11,11 @@ This is design to help add a trigger to your lambdas to keep them warm. It will 
 
 ## CDK side
 You will need to add the following to your cdk project
-- pass the stack as well as the lambda function to keep alive
+- pass the stack, the lambda function to keep alive, and an ID to be used when creating the event rule or the rule itself
 ```typescript
 import { KeepAliveTrigger, addKeepAlive } from '@hypersense-software/lambda-keep-alive-trigger';
 ...
-addKeepAlive(new KeepAliveStackParams({stack: stack, lambdaFunction: functionToKeepAlive}));
+addKeepAlive(new KeepAliveStackParams(this, lambdaFunction, "RuleID"));
 ```
 
 ## Lambda side
@@ -31,7 +31,7 @@ exports.handler = async (event, context) => {
 
 # More customization options
 ## Event rule
-- You can provide a custom event rule for KeepAliveStackParams. The default is to run every 5 minutes.
+- You must provide a custom event rule for KeepAliveStackParams or an id for the default rule. The default is to run every 5 minutes.
 - This will help you keep the lambdas warm at specific date and times, example only during weekdays for development.
 - this can also help re-use the trigger for multiple lambda functions, instead of having  a trigger for each lambda function.
 
@@ -52,7 +52,8 @@ export class ExtensionStack extends Stack {
                 year: "*"
             })
         })
-        addKeepAlive(new KeepAliveStackParams({stack: stack, lambdaFunction: functionToKeepAlive, eventRule: customRule}));    }
+        addKeepAlive(new KeepAliveStackParams(this, lambdaFunction, customRule));    
+    }
 }
 ```
 
@@ -68,7 +69,7 @@ export class ExtensionStack extends Stack {
         let customParams = {
             customParam: "customValue"
         };
-        addKeepAlive(new KeepAliveStackParams({stack: this, lambdaFunction: functionToKeepAlive, handlerParams: customParams}));
+        addKeepAlive(new KeepAliveStackParams(this, lambdaFunction, "RuleID", customParams));
     }
 }
 ```

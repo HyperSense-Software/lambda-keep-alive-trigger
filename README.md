@@ -1,10 +1,30 @@
-# Lambda Keep Alive Trigger
+# Lambda Keep-Alive Trigger
 
-Welcome to our newest open-source software project - a helper to keep your lambdas warm! This service is developed using AWS Cloud Development Kit (CDK) and JavaScript, offering a highly flexible and efficient solution for keeping your lambdas warm.
+Welcome to the Lambda Keep-Alive Trigger, the optimal solution to ensure your AWS Lambdas remain "warm" and responsive. Developed with the AWS Cloud Development Kit (CDK) and JavaScript, this tool seamlessly integrates with your existing setup, guaranteeing efficiency and flexibility.
 
-This project is developed by [HyperSense Software](https://hypersense-software.com/) and it is distributed under an MIT License.
+🚀 **Features**:
 
-This is design to help add a trigger to your lambdas to keep them warm. It will add a trigger to your lambda to be called every 5 minutes. The trigger will call a lambda that will do nothing, but will keep your lambda warm.
+- Automated triggering every 5 minutes.
+- Lightweight design ensures minimal overhead and optimal performance.
+- Seamless integration with AWS CDK.
+
+📦 **Installation & Usage**:
+
+For installation and usage guidelines, please refer to the documentation below. You can also find this package on NPM for a hassle-free setup.
+
+🤝 **Contributors & Maintainers**:
+
+This project is proudly developed and maintained by [HyperSense Software](https://hypersense-software.com/).
+
+📄 **License**:
+
+Distributed under the MIT License. See LICENSE for more information.
+
+🔍 **Overview**:
+
+AWS Lambdas can experience cold starts, which might impact their performance and responsiveness. The Lambda Keep-Alive Trigger acts as a preventative measure by periodically invoking a minimalistic Lambda function. This continuous "ping" ensures your Lambda remains warm, reducing potential latency and enhancing user experience.
+
+Feel free to raise issues, or provide feedback.
 
 
 # Setup 

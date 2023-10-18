@@ -1,5 +1,5 @@
 {
-  "name": "lambda-keep-alive",
+  "name": "@hypersense/lambda-keep-alive",
   "version": "1.0.2",
   "description": "Package to ping lambda calls",
   "main": "dist/index.js",

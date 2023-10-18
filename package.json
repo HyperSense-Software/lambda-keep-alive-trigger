@@ -1,0 +1,33 @@
+{
+  "name": "lambda-keep-alive",
+  "version": "1.0.2",
+  "description": "Package to ping lambda calls",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HyperSense-Software/lambda-keep-alive-trigger"
+  },
+  "scripts": {
+    "build": "tsc --build --clean && tsc",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "lambda",
+    "heartbeat",
+    "keepalive",
+    "cdk"
+  ],
+  "devDependencies": {
+    "@types/node": "^20.7.1",
+    "tslib": "^2.6.2",
+    "typescript": "^4.4.3",
+    "aws-cdk": "^2.94.0",
+    "aws-cdk-lib": "^2.94.0"
+  },
+  "author": "Hypersense",
+  "license": "MIT"
+}
